@@ -1,0 +1,2 @@
+module LargeCategoriesHelper
+end

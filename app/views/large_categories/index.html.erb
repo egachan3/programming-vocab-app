@@ -1,4 +1,14 @@
-<div>
-  <h1 class="font-bold text-4xl">LargeCategories#index</h1>
-  <p>Find me in app/views/large_categories/index.html.erb</p>
+<div class="min-h-screen flex flex-col items-center justify-center">
+  <h1 class="text-3xl font-bold mb-2">カテゴリを選択してください</h1>
+  <p class="text-gray-500 mb-10">学習したいカテゴリを選んでスタート！</p>
+
+  <div class="flex gap-6">
+    <% @large_categories.each do |large_category| %>
+      <%= link_to large_category_levels_path(large_category),
+                  class: "w-48 h-48 flex flex-col items-center justify-center rounded-2xl border-2 border-gray-200 shadow hover:shadow-md hover:border-blue-400 transition cursor-pointer bg-white" do %>
+        <span class="text-5xl mb-3">📚</span>
+        <span class="text-xl font-semibold"><%= large_category.name %></span>
+      <% end %>
+    <% end %>
+  </div>
 </div>

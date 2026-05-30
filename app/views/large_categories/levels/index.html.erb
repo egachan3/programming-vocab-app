@@ -1,0 +1,20 @@
+<div class="min-h-screen flex flex-col items-center justify-center">
+  <h1 class="text-3xl font-bold mb-2">レベルを選択してください</h1>
+  <p class="text-gray-500 mb-10"><%= @large_category.name %> の学習レベルを選んでください</p>
+
+  <div class="flex gap-6">
+    <% [1, 2, 3].each do |level| %>
+      <%= link_to words_path(large_category_id: @large_category.id, level: level),
+                  class: "w-48 h-48 flex flex-col items-center justify-center rounded-2xl border-2 border-gray-200 shadow hover:shadow-md hover:border-blue-400 transition cursor-pointer bg-white" do %>
+        <span class="text-5xl font-bold mb-3">Lv<%= level %></span>
+        <span class="text-gray-500 text-sm">
+          <%= { 1 => "初級", 2 => "中級", 3 => "上級" }[level] %>
+        </span>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="mt-8">
+    <%= link_to "← カテゴリ選択に戻る", large_categories_path, class: "text-gray-400 hover:text-gray-600 text-sm" %>
+  </div>
+</div>

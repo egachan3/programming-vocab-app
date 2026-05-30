@@ -11,23 +11,23 @@
   </div>
 
   <%# 単語詳細カード %>
-  <div class="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
-    <div class="flex items-center gap-3 mb-4">
+  <div class="bg-white border border-gray-200 rounded-2xl p-5 sm:p-8 shadow-sm">
+    <div class="flex items-center flex-wrap gap-2 sm:gap-3 mb-4">
       <span class="text-xs font-semibold bg-blue-100 text-blue-600 px-2 py-1 rounded">Lv<%= @word.level %></span>
       <span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded"><%= @category.name %></span>
     </div>
 
-    <h1 class="text-3xl font-bold mb-6"><%= @word.term %></h1>
+    <h1 class="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 break-words"><%= @word.term %></h1>
 
     <div class="mb-6">
-      <h2 class="text-sm font-semibold text-gray-500 mb-2">説明</h2>
-      <p class="text-gray-800 whitespace-pre-line leading-relaxed"><%= @word.description %></p>
+      <h2 class="text-xs sm:text-sm font-semibold text-gray-500 mb-2">説明</h2>
+      <p class="text-gray-800 whitespace-pre-line leading-relaxed text-sm sm:text-base"><%= @word.description %></p>
     </div>
 
     <% if @word.code_example.present? %>
       <div>
-        <h2 class="text-sm font-semibold text-gray-500 mb-2">コード例</h2>
-        <pre class="bg-gray-900 text-green-200 text-sm rounded-lg p-4 overflow-x-auto"><code><%= @word.code_example %></code></pre>
+        <h2 class="text-xs sm:text-sm font-semibold text-gray-500 mb-2">コード例</h2>
+        <pre class="bg-gray-900 text-green-200 text-xs sm:text-sm rounded-lg p-3 sm:p-4 overflow-x-auto"><code><%= @word.code_example %></code></pre>
       </div>
     <% end %>
   </div>

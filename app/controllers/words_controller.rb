@@ -13,11 +13,17 @@ class WordsController < ApplicationController
     end
 
     @words = @current_category.words.where(level: @level)
+    @q = Word.ransack(params[:q])
   end
 
   def show
     @word = Word.find(params[:id])
     @category = @word.category
     @large_category = @category.large_category
+  end
+
+  def search
+    @q = Word.ransack(params[:q])
+    @words = params[:q]&.dig(:term_cont).present? ? @q.result(distinct: true) : Word.none
   end
 end

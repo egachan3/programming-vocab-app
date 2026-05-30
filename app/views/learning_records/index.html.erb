@@ -1,0 +1,44 @@
+<div class="max-w-3xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold">学習履歴</h1>
+    <p class="text-gray-500 text-sm mt-1">学習した単語の記録を確認できます</p>
+  </div>
+
+  <%# フィルタータブ %>
+  <div class="flex gap-2 mb-6">
+    <%= link_to "すべて", learning_records_path,
+                class: "px-4 py-2 rounded-full text-sm font-medium border transition #{params[:filter].blank? ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-600 border-gray-300 hover:border-blue-400'}" %>
+    <%= link_to "覚えた", learning_records_path(filter: "remembered"),
+                class: "px-4 py-2 rounded-full text-sm font-medium border transition #{params[:filter] == 'remembered' ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-600 border-gray-300 hover:border-green-400'}" %>
+    <%= link_to "覚えていない", learning_records_path(filter: "not_remembered"),
+                class: "px-4 py-2 rounded-full text-sm font-medium border transition #{params[:filter] == 'not_remembered' ? 'bg-red-500 text-white border-red-500' : 'bg-white text-gray-600 border-gray-300 hover:border-red-400'}" %>
+  </div>
+
+  <%# 件数表示 %>
+  <p class="text-gray-400 text-sm mb-4"><%= @records.size %>件</p>
+
+  <%# 学習記録一覧 %>
+  <% if @records.any? %>
+    <div class="flex flex-col gap-3">
+      <% @records.each do |record| %>
+        <%= link_to word_path(record.word), class: "block bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md hover:border-blue-300 transition" do %>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-semibold text-lg"><%= record.word.term %></p>
+              <p class="text-gray-400 text-xs mt-1">
+                <%= record.word.category.name %> / Lv<%= record.word.level %>
+              </p>
+            </div>
+            <% if record.remembered %>
+              <span class="text-xs font-semibold bg-green-100 text-green-600 px-3 py-1 rounded-full">覚えた</span>
+            <% else %>
+              <span class="text-xs font-semibold bg-red-100 text-red-600 px-3 py-1 rounded-full">覚えていない</span>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-gray-400 text-center mt-10">学習記録がありません</p>
+  <% end %>
+</div>

@@ -1,0 +1,32 @@
+<div class="max-w-3xl mx-auto">
+  <div class="mb-6">
+    <p class="text-gray-400 text-sm mb-1">
+      <%= link_to @large_category.name, large_category_levels_path(@large_category), class: "hover:underline" %> &gt; Lv<%= @level %>
+    </p>
+    <h1 class="text-2xl font-bold">単語一覧</h1>
+  </div>
+
+  <%# 中カテゴリ横スクロールタブ %>
+  <div class="flex gap-2 overflow-x-auto pb-2 mb-6">
+    <% @categories.each do |category| %>
+      <%= link_to words_path(large_category_id: @large_category.id, level: @level, category_id: category.id),
+                  class: "whitespace-nowrap px-4 py-2 rounded-full border text-sm font-medium transition #{ category == @current_category ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-600 border-gray-300 hover:border-blue-400' }" do %>
+        <%= category.name %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%# 単語一覧 %>
+  <% if @words.any? %>
+    <div class="flex flex-col gap-3">
+      <% @words.each do |word| %>
+        <%= link_to word_path(word), class: "block bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md hover:border-blue-300 transition" do %>
+          <p class="font-semibold text-lg"><%= word.term %></p>
+          <p class="text-gray-500 text-sm mt-1 line-clamp-2"><%= word.description %></p>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-gray-400 text-center mt-10">このカテゴリにLv<%= @level %>の単語はありません</p>
+  <% end %>
+</div>

@@ -21,6 +21,7 @@
     <% @words.each_with_index do |word, index| %>
       <div data-study-target="card"
            data-action="click->study#flip"
+           data-word-id="<%= word.id %>"
            class="study-card <%= 'is-active' if index.zero? %> cursor-pointer bg-white border border-gray-200 rounded-2xl shadow-sm p-10 flex-col items-center justify-center text-center"
            style="min-height: 18rem;">
         <%# 表面 %>
@@ -38,11 +39,13 @@
 
     <%# 操作ボタン %>
     <div class="mt-6 flex gap-4">
-      <button data-action="click->study#next"
+      <button data-action="click->study#remember"
+              data-remembered="false"
               class="flex-1 bg-red-100 text-red-600 font-semibold py-3 rounded-xl hover:bg-red-200 transition">
         覚えていない
       </button>
-      <button data-action="click->study#next"
+      <button data-action="click->study#remember"
+              data-remembered="true"
               class="flex-1 bg-green-100 text-green-600 font-semibold py-3 rounded-xl hover:bg-green-200 transition">
         覚えた
       </button>

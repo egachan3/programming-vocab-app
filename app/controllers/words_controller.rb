@@ -14,4 +14,10 @@ class WordsController < ApplicationController
 
     @words = @current_category.words.where(level: @level)
   end
+
+  def show
+    @word = Word.find(params[:id])
+    @category = @word.category
+    @large_category = @category.large_category
+  end
 end

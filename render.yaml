@@ -1,0 +1,24 @@
+databases:
+  - name: programming-vocab-app-db
+    databaseName: programming_vocab_app
+    user: programming_vocab_app
+    plan: free
+
+services:
+  - type: web
+    name: programming-vocab-app
+    runtime: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: programming-vocab-app-db
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: RAILS_ENV
+        value: production
+      - key: BUNDLE_WITHOUT
+        value: "development:test"

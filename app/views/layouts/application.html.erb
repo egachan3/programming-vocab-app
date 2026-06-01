@@ -26,16 +26,16 @@
   <body class="bg-gray-50 min-h-screen">
     <%# 共通ヘッダー %>
     <% if user_signed_in? %>
-      <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <header class="bg-red-500 sticky top-0 z-10 shadow-sm">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <%= link_to root_path, class: "flex items-center gap-2" do %>
-            <span class="text-2xl">📘</span>
-            <span class="font-bold text-gray-800 hidden sm:inline">Programming Vocab</span>
+            <%= image_tag "service_logo.png", class: "h-6 w-auto object-contain", alt: "Programming Vocab" %>
+            <span class="font-bold text-white hidden sm:inline">Programming Vocab</span>
           <% end %>
           <nav class="flex items-center gap-3 sm:gap-4 text-sm">
-            <%= link_to "学習履歴", learning_records_path, class: "text-gray-600 hover:text-blue-500 transition" %>
+            <%= link_to "学習履歴", learning_records_path, class: "text-white hover:text-rose-100 transition" %>
             <%= button_to "ログアウト", destroy_user_session_path, method: :delete,
-                          class: "text-gray-600 hover:text-red-500 transition bg-transparent border-0 cursor-pointer p-0" %>
+                          class: "text-white hover:text-rose-100 transition bg-transparent border-0 cursor-pointer p-0" %>
           </nav>
         </div>
       </header>

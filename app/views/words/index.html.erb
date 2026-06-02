@@ -1,4 +1,4 @@
-<div class="max-w-3xl mx-auto">
+<div class="max-w-3xl mx-auto pb-24">
   <div class="mb-4 sm:mb-6">
     <p class="text-gray-400 text-xs sm:text-sm mb-1">
       <%= link_to @large_category.name, large_category_levels_path(@large_category), class: "hover:underline" %> &gt; Lv<%= @level %>
@@ -40,9 +40,9 @@
     <p class="text-gray-400 text-center mt-10">このカテゴリにLv<%= @level %>の単語はありません</p>
   <% end %>
 
-  <%# テスト開始ボタン %>
-  <div class="mt-8 text-center">
+  <%# テスト開始ボタン（画面下部固定） %>
+  <div class="fixed bottom-6 inset-x-0 z-50 flex justify-center pointer-events-none">
     <%= link_to "テスト開始", studies_path(large_category_id: @large_category.id, level: @level),
-                class: "inline-block bg-blue-500 text-white font-semibold px-8 py-3 rounded-xl hover:bg-blue-600 transition" %>
+                class: "pointer-events-auto bg-rose-500 text-white font-semibold px-10 py-3 rounded-full shadow-lg hover:bg-rose-600 transition" %>
   </div>
 </div>

@@ -7,7 +7,7 @@
   <%# フィルタータブ %>
   <div class="flex gap-2 mb-6 overflow-x-auto pb-1">
     <%= link_to "すべて", learning_records_path,
-                class: "whitespace-nowrap px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition #{params[:filter].blank? ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-600 border-gray-300 hover:border-blue-400'}" %>
+                class: "whitespace-nowrap px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition #{params[:filter].blank? ? 'bg-rose-500 text-white border-rose-500' : 'bg-white text-gray-600 border-gray-300 hover:border-rose-400'}" %>
     <%= link_to "覚えた", learning_records_path(filter: "remembered"),
                 class: "whitespace-nowrap px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium border transition #{params[:filter] == 'remembered' ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-600 border-gray-300 hover:border-green-400'}" %>
     <%= link_to "覚えていない", learning_records_path(filter: "not_remembered"),
@@ -21,7 +21,7 @@
   <% if @records.any? %>
     <div class="flex flex-col gap-3">
       <% @records.each do |record| %>
-        <%= link_to word_path(record.word), class: "block bg-white border border-gray-200 rounded-xl p-3 sm:p-4 hover:shadow-md hover:border-blue-300 transition" do %>
+        <%= link_to word_path(record.word), class: "block bg-white border border-gray-200 rounded-xl p-3 sm:p-4 hover:shadow-md hover:border-rose-300 transition" do %>
           <div class="flex items-center justify-between gap-3">
             <div class="min-w-0 flex-1">
               <p class="font-semibold text-base sm:text-lg truncate"><%= record.word.term %></p>

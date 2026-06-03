@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  root "large_categories#index"
+  root "pages#top"
+  post "/guest_login", to: "guest_sessions#create", as: :guest_login
 
   resources :large_categories, only: [ :index ] do
     resources :levels, only: [ :index ], module: :large_categories

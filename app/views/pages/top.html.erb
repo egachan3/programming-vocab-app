@@ -1,0 +1,91 @@
+<%# ヒーローセクション %>
+<div class="-mx-4 sm:-mx-6 -mt-6 sm:-mt-10 bg-gradient-to-br from-rose-500 to-rose-600 px-4 sm:px-6 py-16 sm:py-24 text-center">
+  <%= image_tag "service_logo.png", class: "h-16 w-auto mx-auto mb-6", alt: "Programming Vocab" %>
+  <h1 class="text-3xl sm:text-5xl font-bold text-white mb-4">Programming Vocab</h1>
+  <p class="text-rose-100 text-base sm:text-xl mb-10">Ruby の基礎単語を、確実に覚える</p>
+
+  <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+    <%= button_to "ゲストとしてログイン", guest_login_path,
+                  method: :post,
+                  class: "w-full sm:w-auto px-8 py-3 bg-white text-rose-500 hover:bg-rose-50 font-bold rounded-full shadow-md transition cursor-pointer" %>
+    <%= link_to "アカウント作成", new_user_registration_path,
+                class: "w-full sm:w-auto px-8 py-3 border-2 border-white text-white hover:bg-white hover:text-rose-500 font-bold rounded-full transition text-center" %>
+    <%= link_to "ログイン", new_user_session_path,
+                class: "w-full sm:w-auto px-8 py-3 text-rose-100 hover:text-white font-medium transition text-center" %>
+  </div>
+</div>
+
+<%# 機能紹介セクション %>
+<div class="py-16 sm:py-20">
+  <h2 class="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-12">主な機能</h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-8 text-center">
+      <div class="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-5">
+        <span class="text-3xl">📖</span>
+      </div>
+      <h3 class="font-bold text-gray-800 mb-3">単語学習</h3>
+      <p class="text-gray-500 text-sm leading-relaxed">カテゴリ・レベル別に整理された単語を、一覧と詳細で確認しながら学習できます</p>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-8 text-center">
+      <div class="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-5">
+        <span class="text-3xl">✅</span>
+      </div>
+      <h3 class="font-bold text-gray-800 mb-3">テスト機能</h3>
+      <p class="text-gray-500 text-sm leading-relaxed">単語帳形式でテストに挑戦。「覚えた／覚えていない」を記録しながら反復学習できます</p>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-8 text-center">
+      <div class="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-5">
+        <span class="text-3xl">📊</span>
+      </div>
+      <h3 class="font-bold text-gray-800 mb-3">学習履歴</h3>
+      <p class="text-gray-500 text-sm leading-relaxed">学習した単語の記録をいつでも確認。苦手な単語を把握して効率よく復習できます</p>
+    </div>
+  </div>
+
+  <div class="mt-10 rounded-2xl overflow-hidden border border-gray-200 shadow-md">
+    <%= image_tag "LP_imag.png", class: "w-full h-auto object-cover", alt: "アプリ画面イメージ" %>
+  </div>
+</div>
+
+<%# 使い方セクション %>
+<div class="py-16 sm:py-20 border-t border-gray-100">
+  <h2 class="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-12">使い方</h2>
+
+  <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-0">
+    <div class="flex-1 text-center px-4">
+      <div class="w-12 h-12 bg-rose-500 text-white font-bold text-lg rounded-full flex items-center justify-center mx-auto mb-4">1</div>
+      <h3 class="font-bold text-gray-800 mb-2">カテゴリを選ぶ</h3>
+      <p class="text-gray-500 text-sm">学習したいカテゴリとレベルを選択します</p>
+    </div>
+
+    <div class="hidden sm:flex items-center pb-8 text-rose-300 text-3xl font-light">→</div>
+    <div class="sm:hidden text-rose-300 text-3xl">↓</div>
+
+    <div class="flex-1 text-center px-4">
+      <div class="w-12 h-12 bg-rose-500 text-white font-bold text-lg rounded-full flex items-center justify-center mx-auto mb-4">2</div>
+      <h3 class="font-bold text-gray-800 mb-2">単語を学習する</h3>
+      <p class="text-gray-500 text-sm">単語の意味や使い方をじっくり確認します</p>
+    </div>
+
+    <div class="hidden sm:flex items-center pb-8 text-rose-300 text-3xl font-light">→</div>
+    <div class="sm:hidden text-rose-300 text-3xl">↓</div>
+
+    <div class="flex-1 text-center px-4">
+      <div class="w-12 h-12 bg-rose-500 text-white font-bold text-lg rounded-full flex items-center justify-center mx-auto mb-4">3</div>
+      <h3 class="font-bold text-gray-800 mb-2">テストで確認する</h3>
+      <p class="text-gray-500 text-sm">覚えた単語をテストして記録に残します</p>
+    </div>
+  </div>
+</div>
+
+<%# 最下部CTAセクション %>
+<div class="-mx-4 sm:-mx-6 -mb-6 sm:-mb-10 bg-rose-50 px-4 sm:px-6 py-14 sm:py-20 text-center">
+  <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-3">さっそく始めてみよう</h2>
+  <p class="text-gray-500 text-sm mb-8">登録不要でゲストとして試すことができます</p>
+  <%= button_to "ゲストとしてログイン", guest_login_path,
+                method: :post,
+                class: "px-10 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-full shadow-md transition cursor-pointer" %>
+</div>

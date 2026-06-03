@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   stale_when_importmap_changes
 
   def after_sign_in_path_for(resource)
-    root_path
+    large_categories_path
   end
 
   def after_sign_out_path_for(resource_or_scope)

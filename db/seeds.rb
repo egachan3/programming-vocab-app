@@ -10,9 +10,14 @@
 
 # 大カテゴリ（LargeCategory）を取得または作成する。既に存在する場合はそのレコードを返す
 @ruby_category = LargeCategory.find_or_create_by!(name: "Ruby")
-# @rails_category = LargeCategory.find_or_create_by!(name: "Rails")
+@rails_category = LargeCategory.find_or_create_by!(name: "Rails")
 
 # db/seeds/ruby/ 配下の .rb ファイルをファイル名順に取得し、1つずつ読み込んで実行する
 Dir[Rails.root.join("db/seeds/ruby/*.rb")].sort.each do |file|
+  load file
+end
+
+# db/seeds/rails/ 配下の .rb ファイルをファイル名順に取得し、1つずつ読み込んで実行する
+Dir[Rails.root.join("db/seeds/rails/*.rb")].sort.each do |file|
   load file
 end

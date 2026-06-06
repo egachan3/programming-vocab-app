@@ -17,14 +17,48 @@
   <% end %>
 
   <%# 中カテゴリ横スクロールタブ %>
-  <div class="flex gap-2 overflow-x-auto pb-2 mb-6">
-    <% @categories.each do |category| %>
-      <%= link_to words_path(large_category_id: @large_category.id, level: @level, category_id: category.id),
-                  class: "whitespace-nowrap px-4 py-2 rounded-full border text-sm font-medium transition #{ category == @current_category ? 'bg-rose-500 text-white border-rose-500' : 'bg-white text-gray-600 border-gray-300 hover:border-rose-400' }" do %>
-        <%= category.name %>
+  <div class="relative mb-6" data-controller="category-scroll">
+    <%# 左矢印（左端では非表示） %>
+    <button type="button"
+            data-action="click->category-scroll#scrollToLeft"
+            data-category-scroll-target="leftArrow"
+            aria-label="左へスクロール"
+            class="hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md border border-gray-200 text-gray-500 hover:text-rose-500 hover:border-rose-300 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <%# スクロールコンテナ %>
+    <div class="category-scroller relative flex gap-2 overflow-x-auto pb-2"
+         data-category-scroll-target="scroller"
+         data-action="scroll->category-scroll#update">
+      <% @categories.each do |category| %>
+        <%= link_to words_path(large_category_id: @large_category.id, level: @level, category_id: category.id),
+                    data: { "category-active": (category == @current_category).to_s },
+                    class: "whitespace-nowrap px-4 py-2 rounded-full border text-sm font-medium transition #{ category == @current_category ? 'bg-rose-500 text-white border-rose-500' : 'bg-white text-gray-600 border-gray-300 hover:border-rose-400' }" do %>
+          <%= category.name %>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
+
+    <%# 右矢印（右端では非表示） %>
+    <button type="button"
+            data-action="click->category-scroll#scrollToRight"
+            data-category-scroll-target="rightArrow"
+            aria-label="右へスクロール"
+            class="hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md border border-gray-200 text-gray-500 hover:text-rose-500 hover:border-rose-300 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
   </div>
+
+  <%# カテゴリタブのスクロールバーを非表示にする（矢印で操作するため） %>
+  <style>
+    .category-scroller { scrollbar-width: none; }
+    .category-scroller::-webkit-scrollbar { display: none; }
+  </style>
 
   <%# 単語一覧 %>
   <% if @words.any? %>

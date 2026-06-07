@@ -4,13 +4,22 @@
 
   <div class="grid grid-cols-3 gap-3 sm:flex sm:gap-6 w-full sm:w-auto">
     <% [1, 2, 3].each do |level| %>
+      <% progress = @progress[level]
+         total    = progress[:total]
+         learned  = progress[:learned]
+         pct      = total > 0 ? (learned * 100 / total) : 0 %>
       <%= link_to words_path(large_category_id: @large_category.id, level: level),
-                  class: "group relative h-32 sm:w-48 sm:h-48 flex flex-col items-center justify-center rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-rose-300 hover:-translate-y-1 transition-all duration-200 cursor-pointer bg-white overflow-hidden" do %>
+                  class: "group relative w-full sm:w-48 flex flex-col items-center justify-center rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg hover:border-rose-300 hover:-translate-y-1 transition-all duration-200 cursor-pointer bg-white overflow-hidden pt-6 pb-5 px-4" do %>
         <span class="absolute top-0 inset-x-0 h-1.5 bg-rose-500"></span>
-        <span class="text-3xl sm:text-5xl font-bold mb-1 sm:mb-3">Lv<%= level %></span>
-        <span class="text-gray-500 text-xs sm:text-sm">
+        <span class="text-3xl sm:text-5xl font-bold mb-1">Lv<%= level %></span>
+        <span class="text-gray-500 text-xs sm:text-sm mb-3">
           <%= { 1 => "初級", 2 => "中級", 3 => "上級" }[level] %>
         </span>
+        <%# プログレスバー %>
+        <div class="w-full bg-gray-100 rounded-full h-1.5 mb-1.5">
+          <div class="bg-rose-400 h-1.5 rounded-full transition-all duration-300" style="width: <%= pct %>%"></div>
+        </div>
+        <span class="text-xs text-gray-400"><%= learned %> / <%= total %>語</span>
       <% end %>
     <% end %>
   </div>

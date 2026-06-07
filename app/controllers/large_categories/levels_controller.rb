@@ -10,7 +10,7 @@ module LargeCategories
     private
 
     def build_progress
-      [1, 2, 3].each_with_object({}) do |level, hash|
+      (1..3).each_with_object({}) do |level, hash|
         words = Word.joins(:category).where(categories: { large_category: @large_category }, level: level)
         total = words.count
         learned = words.joins(:learning_records).where(learning_records: { user: current_user }).distinct.count

@@ -34,6 +34,7 @@
           <% end %>
           <nav class="flex items-center gap-3 sm:gap-4 text-sm">
             <%= link_to "学習履歴", learning_records_path, class: "text-white hover:text-rose-100 transition" %>
+            <%= link_to "設定", edit_user_registration_path, class: "text-white hover:text-rose-100 transition" %>
             <%= button_to "ログアウト", destroy_user_session_path, method: :delete,
                           class: "text-white hover:text-rose-100 transition bg-transparent border-0 cursor-pointer p-0" %>
           </nav>
@@ -42,6 +43,12 @@
     <% end %>
 
     <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10">
+      <% if notice %>
+        <div data-controller="flash" class="mb-4 px-4 py-3 bg-green-50 border border-green-200 text-green-700 text-sm rounded-xl"><%= notice %></div>
+      <% end %>
+      <% if alert %>
+        <div data-controller="flash" class="mb-4 px-4 py-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl"><%= alert %></div>
+      <% end %>
       <%= yield %>
     </main>
 

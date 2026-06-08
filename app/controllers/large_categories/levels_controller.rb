@@ -10,11 +10,16 @@ module LargeCategories
     private
 
     def build_progress
+      base = Word.joins(:category).where(categories: { large_category: @large_category })
+      totals   = base.group(:level).count
+      learneds = base.joins(:learning_records)
+                     .where(learning_records: { user: current_user })
+                     .distinct
+                     .group(:level)
+                     .count
+
       (1..3).each_with_object({}) do |level, hash|
-        words = Word.joins(:category).where(categories: { large_category: @large_category }, level: level)
-        total = words.count
-        learned = words.joins(:learning_records).where(learning_records: { user: current_user }).distinct.count
-        hash[level] = { total: total, learned: learned }
+        hash[level] = { total: totals[level] || 0, learned: learneds[level] || 0 }
       end
     end
   end

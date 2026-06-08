@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_18_124800) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_08_105732) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,6 +34,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_18_124800) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.bigint "word_id", null: false
+    t.index ["user_id", "word_id"], name: "index_learning_records_on_user_id_and_word_id"
     t.index ["user_id"], name: "index_learning_records_on_user_id"
     t.index ["word_id"], name: "index_learning_records_on_word_id"
   end
@@ -58,6 +59,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_18_124800) do
     t.integer "level", null: false
     t.string "term", null: false
     t.datetime "updated_at", null: false
+    t.index ["category_id", "level"], name: "index_words_on_category_id_and_level"
     t.index ["category_id"], name: "index_words_on_category_id"
   end
 

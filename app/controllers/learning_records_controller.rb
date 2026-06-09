@@ -8,7 +8,7 @@ class LearningRecordsController < ApplicationController
     when "not_remembered" then @records.where(remembered: false)
     else @records
     end
-    @records = @records.order(updated_at: :desc)
+    @records = @records.order(updated_at: :desc).page(params[:page]).per(20)
   end
 
   def create

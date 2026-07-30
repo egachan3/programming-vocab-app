@@ -11,6 +11,9 @@ module ProgrammingVocabApp
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.1
 
+    # Active Storageは未使用のため、vips依存の起動時読み込みを避けるため無効化する
+    config.active_storage.variant_processor = :disabled
+
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.

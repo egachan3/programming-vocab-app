@@ -18,7 +18,7 @@ Ruby / Rails 初学者向けの、プログラミング用語をカテゴリ・�
 - [これは何か](#これは何か)
 - [主な機能](#主な機能)
 - [技術スタック](#技術スタック)
-- [ドメインモデル](#ドメインモデル)
+- [ER図](#er図)
 - [セットアップ](#セットアップ)
 - [テスト](#テスト)
 - [インフラ構成](#インフラ構成)
@@ -64,15 +64,54 @@ RubyやRuby on Railsの学習を進める中で、用語や関数・クラスの
 | セキュリティ | [Brakeman](https://brakemanscanner.org/)、[bundler-audit](https://github.com/rubysec/bundler-audit)(CIで自動実行) |
 | CI | GitHub Actions(lint / セキュリティスキャン / テスト / system test) |
 
-## ドメインモデル
+## ER図
 
-```
-LargeCategory (大カテゴリ) 1 --- * Category (カテゴリ) 1 --- * Word (単語)
-User 1 --- * LearningRecord (学習履歴) * --- 1 Word
+```mermaid
+erDiagram
+    LARGE_CATEGORIES ||--o{ CATEGORIES : "has many"
+    CATEGORIES ||--o{ WORDS : "has many"
+    USERS ||--o{ LEARNING_RECORDS : "has many"
+    WORDS ||--o{ LEARNING_RECORDS : "has many"
+
+    LARGE_CATEGORIES {
+        bigint id PK
+        string name UK
+    }
+
+    CATEGORIES {
+        bigint id PK
+        bigint large_category_id FK
+        string name
+    }
+
+    WORDS {
+        bigint id PK
+        bigint category_id FK
+        string term
+        text description
+        text code_example
+        integer level "1〜3"
+    }
+
+    USERS {
+        bigint id PK
+        string email UK
+        string encrypted_password
+        string provider "OAuth用"
+        string uid "OAuth用"
+    }
+
+    LEARNING_RECORDS {
+        bigint id PK
+        bigint user_id FK
+        bigint word_id FK
+        boolean remembered
+    }
 ```
 
 - `Word` はレベル(1〜3)を持ち、レベル別の学習・進捗管理を可能にしている
 - `LearningRecord` はユーザーごとの「覚えた/覚えていない」を記録し、学習履歴・進捗表示に使われる
+- `users(provider, uid)` にはユニークインデックスがあり、Googleアカウントとの1対1の紐付けを保証している
 
 ## セットアップ
 

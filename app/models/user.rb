@@ -8,9 +8,16 @@ class User < ApplicationRecord
   has_many :learning_records
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
-      user.password = Devise.friendly_token[0, 20]
-    end
+    find_by(provider: auth.provider, uid: auth.uid) ||
+      link_existing_account(auth) ||
+      create(provider: auth.provider, uid: auth.uid, email: auth.info.email, password: Devise.friendly_token[0, 20])
+  rescue ActiveRecord::RecordNotUnique
+    find_by(provider: auth.provider, uid: auth.uid)
   end
+
+  def self.link_existing_account(auth)
+    user = find_by(email: auth.info.email)
+    user&.tap { |u| u.update!(provider: auth.provider, uid: auth.uid) }
+  end
+  private_class_method :link_existing_account
 end

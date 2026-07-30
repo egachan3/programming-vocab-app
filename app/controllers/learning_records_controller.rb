@@ -12,9 +12,13 @@ class LearningRecordsController < ApplicationController
   end
 
   def create
+    remembered = params[:remembered] == "true"
     record = LearningRecord.find_or_initialize_by(user: current_user, word_id: params[:word_id])
-    record.remembered = params[:remembered] == "true"
+    record.remembered = remembered
     record.save!
+    head :ok
+  rescue ActiveRecord::RecordNotUnique
+    LearningRecord.find_by!(user: current_user, word_id: params[:word_id]).update!(remembered: remembered)
     head :ok
   end
 end

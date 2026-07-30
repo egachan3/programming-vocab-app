@@ -1,21 +1,18 @@
 name: Keep Alive
 
-# RenderのWebサービス(15分無アクセスでスリープ)と
 # SupabaseのDB(7日間無アクセスでプロジェクト一時停止)を
-# 定期的に叩いて起動状態を維持する
+# 定期的に叩いて起動状態を維持する。
+#
+# RenderのWebサービス(15分無アクセスでスリープ)へのpingは、
+# GitHub Actionsの高頻度cron(*/10)が負荷分散のため大幅に遅延・間引きされ
+# (実測で1時間以上動かないことがあった)15分以内の間隔を維持できなかったため、
+# UptimeRobot等の外部監視サービス側で行う。詳細はdocs/deployment.mdを参照。
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "*/30 * * * *"
   workflow_dispatch:
 
 jobs:
-  ping-render:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Renderアプリにアクセスしてスリープを防ぐ
-        # スリープからの復帰(コールドスタート)に50秒以上かかることがあるため長めに待つ
-        run: curl -sf --max-time 90 https://programming-vocab-app.onrender.com/ > /dev/null
-
   ping-supabase:
     runs-on: ubuntu-latest
     steps:

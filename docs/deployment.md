@@ -6,7 +6,8 @@
 |---|---|
 | アプリ本体のデプロイ先 | [Render](https://render.com)(無料プラン) |
 | データベース | [Supabase](https://supabase.com)(無料プラン、PostgreSQL) |
-| DB/アプリの休止対策 | GitHub Actions定期実行(`.github/workflows/keep-alive.yml`) |
+| Renderの休止対策 | UptimeRobot等の外部監視サービスによる定期ping |
+| Supabaseの休止対策 | GitHub Actions定期実行(`.github/workflows/keep-alive.yml`) |
 
 ## 背景・移行理由
 
@@ -37,12 +38,17 @@ Supabaseを採用した理由: リクエスト単位のコールドスタート�
 
 ## 定期ping(keep-alive)の仕組み
 
-`.github/workflows/keep-alive.yml`が10分おきに以下を実行する。
+当初はRenderへのアクセスとSupabaseへのDBクエリの両方をGitHub Actionsの`*/10`(10分おき)cronで実行していたが、**実際には1時間以上スケジュール実行が発生しないことがあった**。GitHub Actionsのscheduleイベントは負荷分散のため実行タイミングを保証しておらず、高頻度なcronほど遅延・間引きされやすい。Renderの無料枠は15分でスリープするため、この遅延幅では間に合わず、実際にコールドスタート(ロード画面)が発生した。
 
-1. **Renderアプリへのアクセス**: `curl`でトップページにアクセスし、15分間の無アクセスによるスリープを防ぐ(コールドスタートに50秒以上かかることがあるため、タイムアウトは90秒に設定)
-2. **SupabaseのDBへのクエリ実行**: `psql`で`SELECT 1`を実行し、7日間の無アクセスによるプロジェクト一時停止を防ぐ。接続文字列はGitHub Secretsの`SUPABASE_DB_URL`に登録している
+この実測を踏まえ、以下のように役割を分離した。
+
+1. **Renderアプリへのping(15分以内が必須)**: [UptimeRobot](https://uptimerobot.com)等、HTTP監視に特化した外部サービスで行う。5分間隔で監視でき、GitHub Actionsのような間引きが起きにくい。設定はUptimeRobotのダッシュボード上で行うため、このリポジトリのコードには現れない
+2. **SupabaseのDBへのクエリ実行(7日以内でよい)**: 引き続き`.github/workflows/keep-alive.yml`(GitHub Actions、30分おきcron)で`psql`により`SELECT 1`を実行する。7日間という猶予があるため、GitHub Actionsの遅延・間引きが多少発生しても実用上問題ない。接続文字列はGitHub Secretsの`SUPABASE_DB_URL`に登録している
 
 このリポジトリはパブリックリポジトリのため、GitHub Actionsの実行時間は無料・無制限で消費される。プライベートリポジトリの場合はping頻度によっては無料枠(月2,000分)を超過する可能性がある点に注意。
+
+> [!note] GitHub Actionsのcronを15分未満の間隔が必要な用途に使わない
+> 高頻度スケジュール実行はGitHub側で確実性を保証されていない。15分のような短いしきい値に対する定期pingには、UptimeRobotのような監視専用サービスを使う方が確実。
 
 ## 検討したが採用しなかった選択肢
 

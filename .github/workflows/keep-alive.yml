@@ -13,7 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Renderアプリにアクセスしてスリープを防ぐ
-        run: curl -sf --max-time 30 https://programming-vocab-app.onrender.com/ > /dev/null
+        # スリープからの復帰(コールドスタート)に50秒以上かかることがあるため長めに待つ
+        run: curl -sf --max-time 90 https://programming-vocab-app.onrender.com/ > /dev/null
 
   ping-supabase:
     runs-on: ubuntu-latest

@@ -43,6 +43,8 @@ gem "thruster", require: false
 gem "image_processing", "~> 2.0"
 
 gem "devise"
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
 gem "kaminari"
 gem "ransack"
 

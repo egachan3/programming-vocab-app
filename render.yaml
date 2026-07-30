@@ -1,9 +1,3 @@
-databases:
-  - name: programming-vocab-app-db
-    databaseName: programming_vocab_app
-    user: programming_vocab_app
-    plan: free
-
 services:
   - type: web
     name: programming-vocab-app
@@ -13,9 +7,7 @@ services:
     startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: programming-vocab-app-db
-          property: connectionString
+        sync: false
       - key: RAILS_MASTER_KEY
         sync: false
       - key: RAILS_ENV

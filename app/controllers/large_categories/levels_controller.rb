@@ -13,7 +13,7 @@ module LargeCategories
       base = Word.joins(:category).where(categories: { large_category: @large_category })
       totals   = base.group(:level).count
       learneds = base.joins(:learning_records)
-                     .where(learning_records: { user: current_user })
+                     .where(learning_records: { user: current_user, remembered: true })
                      .distinct
                      .group(:level)
                      .count

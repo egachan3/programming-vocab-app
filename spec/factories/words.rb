@@ -1,9 +1,8 @@
 FactoryBot.define do
   factory :word do
-    term { "MyString" }
-    description { "MyText" }
-    code_example { "MyText" }
+    sequence(:term) { |n| "term#{n}" }
+    description { "説明文" }
     level { 1 }
-    category { nil }
+    category
   end
 end

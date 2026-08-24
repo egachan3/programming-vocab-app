@@ -60,7 +60,7 @@ RubyやRuby on Railsの学習を進める中で、用語や関数・クラスの
 | 検索 | [ransack](https://github.com/activerecord-hackery/ransack) |
 | デプロイ | [Render](https://render.com)(無料プラン) |
 | 休止対策 | [UptimeRobot](https://uptimerobot.com)(Render向け) + GitHub Actions(Supabase向け) |
-| テスト | Minitest(単体・結合テスト) + Capybara / Selenium(system test = E2E) |
+| テスト | RSpec(単体・結合テスト) + Capybara / Selenium(system spec = E2E) |
 | セキュリティ | [Brakeman](https://brakemanscanner.org/)、[bundler-audit](https://github.com/rubysec/bundler-audit)(CIで自動実行) |
 | CI | GitHub Actions(lint / セキュリティスキャン / テスト / system test) |
 
@@ -134,8 +134,8 @@ Google OAuthを試す場合は `config/credentials.yml.enc` にGoogleのクラ�
 ## テスト
 
 ```bash
-bin/rails test          # 単体・結合テスト(Minitest)
-bin/rails test:system   # E2Eテスト(Capybara + Selenium)
+bin/rails db:test:prepare && bundle exec rspec spec --exclude-pattern "spec/system/**/*"  # 単体・結合テスト(RSpec)
+bin/rails db:test:prepare && bundle exec rspec spec/system                                # E2Eテスト(Capybara + Selenium)
 bin/rubocop              # コードスタイルチェック
 bin/brakeman              # セキュリティスキャン
 bin/bundler-audit check   # 依存gemの脆弱性スキャン

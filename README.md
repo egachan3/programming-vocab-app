@@ -20,7 +20,7 @@ Ruby / Rails 初学者向けの、プログラミング用語をカテゴリ・�
 - [技術スタック](#技術スタック)
 - [ER図](#er図)
 - [セットアップ](#セットアップ)
-- [テスト](#テスト)
+- [テストの実行](#テストの実行)
 - [インフラ構成](#インフラ構成)
 - [こだわったポイント](#こだわったポイント)
 - [開発中に直面した問題と解決](#開発中に直面した問題と解決)
@@ -131,7 +131,7 @@ bin/rails server
 
 Google OAuthを試す場合は `config/credentials.yml.enc` にGoogleのクライアントID/シークレットが必要です(`RAILS_MASTER_KEY` は各自の環境で管理してください)。設定なしでもメール/パスワード認証・ゲストログインは利用できます。
 
-## テスト
+## テストの実行
 
 ```bash
 bin/rails db:test:prepare && bundle exec rspec spec --exclude-pattern "spec/system/**/*"  # 単体・結合テスト(RSpec)

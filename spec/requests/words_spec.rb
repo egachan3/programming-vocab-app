@@ -8,9 +8,26 @@ RSpec.describe "Words", type: :request do
   let!(:word_in_a) { create(:word, category: category_a, level: 1) }
   let!(:word_in_b) { create(:word, category: category_b, level: 1) }
 
-  before { sign_in user }
+  describe "未ログイン時" do
+    it "単語一覧はログイン画面にリダイレクトされる" do
+      get words_path(large_category_id: large_category.id, level: 1)
+      expect(response).to redirect_to(new_user_session_path)
+    end
+
+    it "単語詳細はログイン画面にリダイレクトされる" do
+      get word_path(word_in_a)
+      expect(response).to redirect_to(new_user_session_path)
+    end
+
+    it "単語検索はログイン画面にリダイレクトされる" do
+      get search_words_path(q: { term_cont: word_in_a.term })
+      expect(response).to redirect_to(new_user_session_path)
+    end
+  end
 
   describe "GET /words" do
+    before { sign_in user }
+
     it "category_idを指定するとそのカテゴリの単語のみ表示される" do
       get words_path(large_category_id: large_category.id, level: 1, category_id: category_b.id)
 
@@ -28,6 +45,8 @@ RSpec.describe "Words", type: :request do
   end
 
   describe "GET /words/:id" do
+    before { sign_in user }
+
     it "単語の詳細を表示する" do
       get word_path(word_in_a)
 
@@ -38,6 +57,8 @@ RSpec.describe "Words", type: :request do
   end
 
   describe "GET /words/search" do
+    before { sign_in user }
+
     it "検索語を含む単語がヒットする" do
       get search_words_path(q: { term_cont: word_in_a.term })
 

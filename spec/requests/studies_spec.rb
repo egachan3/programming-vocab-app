@@ -7,9 +7,16 @@ RSpec.describe "Studies", type: :request do
   let!(:level1_word) { create(:word, category: category, level: 1) }
   let!(:level2_word) { create(:word, category: category, level: 2) }
 
-  before { sign_in user }
+  describe "未ログイン時" do
+    it "テスト画面はログイン画面にリダイレクトされる" do
+      get studies_path(large_category_id: large_category.id, level: 1)
+      expect(response).to redirect_to(new_user_session_path)
+    end
+  end
 
   describe "GET /studies" do
+    before { sign_in user }
+
     it "指定したレベルの単語のみ出題対象になる" do
       get studies_path(large_category_id: large_category.id, level: 1)
 

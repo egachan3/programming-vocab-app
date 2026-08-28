@@ -7,9 +7,16 @@ RSpec.describe "LargeCategories::Levels", type: :request do
   let!(:remembered_word) { create(:word, category: category) }
   let!(:not_remembered_word) { create(:word, category: category) }
 
-  before { sign_in user }
+  describe "未ログイン時" do
+    it "レベル選択画面はログイン画面にリダイレクトされる" do
+      get large_category_levels_path(large_category_id: large_category.id)
+      expect(response).to redirect_to(new_user_session_path)
+    end
+  end
 
   describe "GET /large_categories/:large_category_id/levels" do
+    before { sign_in user }
+
     it "覚えたと記録した単語のみ進捗にカウントされる(覚えていないは含めない)" do
       create(:learning_record, user: user, word: remembered_word, remembered: true)
       create(:learning_record, user: user, word: not_remembered_word, remembered: false)

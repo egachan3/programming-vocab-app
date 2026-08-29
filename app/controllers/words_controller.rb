@@ -11,6 +11,8 @@ class WordsController < ApplicationController
     else
                           @categories.first
     end
+    # カテゴリを1つも持たない大カテゴリでは表示すべき単語が無いため、404として扱う
+    raise ActiveRecord::RecordNotFound if @current_category.nil?
 
     @words = @current_category.words.where(level: @level)
     @q = Word.ransack(params[:q])

@@ -97,6 +97,26 @@ RSpec.describe "Words", type: :request do
       expect(response.body).to include(word_in_a.term)
     end
 
+    # 検索結果はビューでword.category.nameを参照するため、eager loadingが
+    # 外れると該当語のcategory_id数(=SELECT categories回数)だけN+1が発生する
+    it "検索結果が複数カテゴリにまたがってもcategoriesのクエリが増えない" do
+      category_c = create(:category, large_category: large_category)
+      create(:word, category: category_c, term: "共通キーワード単語C")
+      create(:word, category: category_a, term: "共通キーワード単語A")
+
+      category_queries = 0
+      counter = ->(_name, _start, _finish, _id, payload) do
+        category_queries += 1 if payload[:sql]&.include?('"categories"')
+      end
+
+      ActiveSupport::Notifications.subscribed(counter, "sql.active_record") do
+        get search_words_path(q: { term_cont: "共通キーワード" })
+      end
+
+      expect(response.body).to include("共通キーワード単語C").and include("共通キーワード単語A")
+      expect(category_queries).to be <= 1
+    end
+
     it "検索語が未指定なら何も表示しない" do
       get search_words_path
 

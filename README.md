@@ -80,6 +80,7 @@ RubyやRuby on Railsの学習を進める中で、用語や関数・クラスの
 | 休止対策 | [UptimeRobot](https://uptimerobot.com)(Render向け) + GitHub Actions(Supabase向け) |
 | テスト | RSpec(単体・結合テスト) + Capybara / Selenium(system spec = E2E) |
 | セキュリティ | [Brakeman](https://brakemanscanner.org/)、[bundler-audit](https://github.com/rubysec/bundler-audit)(CIで自動実行) |
+| パフォーマンス | [Bullet](https://github.com/flyerhzm/bullet)(開発環境でN+1・不要なeager loadingを自動検知) |
 | CI | GitHub Actions(lint / セキュリティスキャン / テスト / system test) |
 
 ## ER図

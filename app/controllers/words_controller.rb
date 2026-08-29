@@ -26,6 +26,6 @@ class WordsController < ApplicationController
 
   def search
     @q = Word.ransack(params[:q])
-    @words = params[:q]&.dig(:term_cont).present? ? @q.result(distinct: true) : Word.none
+    @words = params[:q]&.dig(:term_cont).present? ? @q.result(distinct: true).includes(:category) : Word.none
   end
 end

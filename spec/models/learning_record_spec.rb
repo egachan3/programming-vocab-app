@@ -36,12 +36,8 @@ RSpec.describe LearningRecord, type: :model do
       word = create(:word)
       create(:learning_record, user: user, word: word)
 
-      expect {
-        described_class.connection.execute(
-          "INSERT INTO learning_records (user_id, word_id, remembered, created_at, updated_at) " \
-          "VALUES (#{user.id}, #{word.id}, false, now(), now())"
-        )
-      }.to raise_error(ActiveRecord::RecordNotUnique)
+      expect { create(:learning_record, user: user, word: word) }
+        .to raise_error(ActiveRecord::RecordNotUnique)
     end
 
     it "userが異なれば同じwordを記録できる" do

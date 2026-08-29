@@ -7,7 +7,7 @@ RSpec.describe "Studies", type: :request do
   let!(:level1_word) { create(:word, category: category, level: 1) }
   let!(:level2_word) { create(:word, category: category, level: 2) }
 
-  describe "未ログイン時" do
+  context "未ログインの場合" do
     it "テスト画面はログイン画面にリダイレクトされる" do
       get studies_path(large_category_id: large_category.id, level: 1)
       expect(response).to redirect_to(new_user_session_path)

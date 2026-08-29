@@ -7,7 +7,7 @@ RSpec.describe "LargeCategories::Levels", type: :request do
   let!(:remembered_word) { create(:word, category: category) }
   let!(:not_remembered_word) { create(:word, category: category) }
 
-  describe "未ログイン時" do
+  context "未ログインの場合" do
     it "レベル選択画面はログイン画面にリダイレクトされる" do
       get large_category_levels_path(large_category_id: large_category.id)
       expect(response).to redirect_to(new_user_session_path)

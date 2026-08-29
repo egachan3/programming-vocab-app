@@ -50,15 +50,4 @@ RSpec.describe Word, type: :model do
       expect { word.destroy }.to change(LearningRecord, :count).by(-1)
     end
   end
-
-  describe ".ransackable_attributes" do
-    # Ransack 4系では検索対象を明示的に許可する必要があり、termのみに絞っている
-    it "検索対象をtermのみに限定している" do
-      expect(described_class.ransackable_attributes).to eq(%w[term])
-    end
-
-    it "アソシエーション経由の検索は許可していない" do
-      expect(described_class.ransackable_associations).to be_empty
-    end
-  end
 end

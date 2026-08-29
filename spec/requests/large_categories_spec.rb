@@ -5,7 +5,7 @@ RSpec.describe "LargeCategories", type: :request do
   let!(:ruby)  { create(:large_category, name: "Ruby") }
   let!(:rails) { create(:large_category, name: "Rails") }
 
-  describe "未ログイン時" do
+  context "未ログインの場合" do
     it "カテゴリ一覧はログイン画面にリダイレクトされる" do
       get large_categories_path
       expect(response).to redirect_to(new_user_session_path)

@@ -1,13 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Programming Vocab App" %></title>
+    <% og_title = content_for(:title) || "Programming Vocab App" %>
+    <% og_description = "Ruby / Rails 初学者向けの、プログラミング用語をカテゴリ・レベル別に整理して学べる単語帳アプリ" %>
+    <% og_image_url = "#{request.base_url}/ogp.png" %>
+    <%# クエリパラメータ(トラッキング用など)を含めず、正規URLとして扱えるパスのみを渡す %>
+    <% og_url = "#{request.base_url}#{request.path}" %>
+
+    <title><%= og_title %></title>
+    <meta name="description" content="<%= og_description %>">
+    <link rel="canonical" href="<%= og_url %>">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Programming Vocab App">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <%# OGP: SlackやX、LINEなどにURLを貼った際にカード表示されるようにする %>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Programming Vocab App">
+    <meta property="og:locale" content="ja_JP">
+    <meta property="og:title" content="<%= og_title %>">
+    <meta property="og:description" content="<%= og_description %>">
+    <meta property="og:url" content="<%= og_url %>">
+    <meta property="og:image" content="<%= og_image_url %>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= og_title %>">
+    <meta name="twitter:description" content="<%= og_description %>">
+    <meta name="twitter:image" content="<%= og_image_url %>">
 
     <%= yield :head %>
 

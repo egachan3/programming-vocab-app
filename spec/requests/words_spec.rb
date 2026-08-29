@@ -8,9 +8,26 @@ RSpec.describe "Words", type: :request do
   let!(:word_in_a) { create(:word, category: category_a, level: 1) }
   let!(:word_in_b) { create(:word, category: category_b, level: 1) }
 
-  before { sign_in user }
+  context "未ログインの場合" do
+    it "単語一覧はログイン画面にリダイレクトされる" do
+      get words_path(large_category_id: large_category.id, level: 1)
+      expect(response).to redirect_to(new_user_session_path)
+    end
+
+    it "単語詳細はログイン画面にリダイレクトされる" do
+      get word_path(word_in_a)
+      expect(response).to redirect_to(new_user_session_path)
+    end
+
+    it "単語検索はログイン画面にリダイレクトされる" do
+      get search_words_path(q: { term_cont: word_in_a.term })
+      expect(response).to redirect_to(new_user_session_path)
+    end
+  end
 
   describe "GET /words" do
+    before { sign_in user }
+
     it "category_idを指定するとそのカテゴリの単語のみ表示される" do
       get words_path(large_category_id: large_category.id, level: 1, category_id: category_b.id)
 
@@ -28,6 +45,8 @@ RSpec.describe "Words", type: :request do
   end
 
   describe "GET /words/:id" do
+    before { sign_in user }
+
     it "単語の詳細を表示する" do
       get word_path(word_in_a)
 
@@ -38,6 +57,8 @@ RSpec.describe "Words", type: :request do
   end
 
   describe "GET /words/search" do
+    before { sign_in user }
+
     it "検索語を含む単語がヒットする" do
       get search_words_path(q: { term_cont: word_in_a.term })
 
@@ -51,6 +72,17 @@ RSpec.describe "Words", type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).not_to include(word_in_a.term)
       expect(response.body).not_to include(word_in_b.term)
+    end
+
+    # Ransack 4系ではモデル側で検索対象を明示的に許可する必要がある。
+    # Wordはtermのみ許可しているため、descriptionでは検索できない。
+    it "許可していない属性(description)では検索できない" do
+      create(:word, category: category_a, term: "ヒットしない単語", description: "レア説明文XYZ")
+
+      get search_words_path(q: { description_cont: "レア説明文XYZ" })
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).not_to include("ヒットしない単語")
     end
   end
 end

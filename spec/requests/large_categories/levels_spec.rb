@@ -27,5 +27,11 @@ RSpec.describe "LargeCategories::Levels", type: :request do
       page = Capybara::Node::Simple.new(response.body)
       expect(page).to have_css("span", text: "1 / 2語")
     end
+
+    it "存在しない大カテゴリIDを指定すると404になる" do
+      get large_category_levels_path(large_category_id: 0)
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 end

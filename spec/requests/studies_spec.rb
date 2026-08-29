@@ -31,5 +31,11 @@ RSpec.describe "Studies", type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include("このレベルの単語がありません")
     end
+
+    it "存在しない大カテゴリIDを指定すると404になる" do
+      get studies_path(large_category_id: 0, level: 1)
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 end

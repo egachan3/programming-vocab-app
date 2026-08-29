@@ -42,6 +42,31 @@ RSpec.describe "Words", type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include(word_in_a.term)
     end
+
+    # 大カテゴリ配下に絞ってからfindしているため、他の大カテゴリのIDは弾かれる
+    it "他の大カテゴリ配下のcategory_idを指定すると404になる" do
+      other_category = create(:category, large_category: create(:large_category))
+
+      get words_path(large_category_id: large_category.id, level: 1, category_id: other_category.id)
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "存在しない大カテゴリIDを指定すると404になる" do
+      get words_path(large_category_id: 0, level: 1)
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    # カテゴリを1つも持たない大カテゴリでは @categories.first が nil になり、
+    # 以前は NoMethodError(500)になっていた
+    it "カテゴリを持たない大カテゴリでは500ではなく404になる" do
+      empty_large_category = create(:large_category)
+
+      get words_path(large_category_id: empty_large_category.id, level: 1)
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   describe "GET /words/:id" do
@@ -53,6 +78,12 @@ RSpec.describe "Words", type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include(word_in_a.term)
       expect(response.body).to include(word_in_a.description)
+    end
+
+    it "存在しない単語IDを指定すると404になる" do
+      get word_path(id: 0)
+
+      expect(response).to have_http_status(:not_found)
     end
   end
 
